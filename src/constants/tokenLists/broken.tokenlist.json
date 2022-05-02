@@ -1,0 +1,22 @@
+{
+  "name": "Broken Token List",
+  "timestamp": "2021-01-05T20:47:02.923Z",
+  "version": {
+    "major": 1,
+    "minor": 0,
+    "patch": 0
+  },
+  "tags": {},
+  "logoURI": "ipfs://",
+  "keywords": ["uniswap", "broken"],
+  "tokens": [
+    {
+      "name": "Cerby Token",
+      "address": "0xdef1fac7Bf08f173D286BbBDcBeeADe695129840",
+      "symbol": "CERBY",
+      "decimals": 18,
+      "chainId": 1,
+      "logoURI": ""
+    }
+  ]
+}
