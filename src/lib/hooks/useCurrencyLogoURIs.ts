@@ -1,4 +1,4 @@
-import { PoolInfo } from 'constants/lists'
+import { Currency } from '@uniswap/sdk-core'
 import { SupportedChainId } from 'constants/chains'
 import useHttpLocations from 'hooks/useHttpLocations'
 import { useMemo } from 'react'
@@ -40,8 +40,8 @@ function getTokenLogoURI(address: string, chainId: SupportedChainId = SupportedC
   }
 }
 
-export default function useCurrencyLogoURIs(currency?: PoolInfo | null): string[] {
-  const locations = useHttpLocations(currency instanceof WrappedTokenInfo ? `https://tokens.cerbyswap.com/${currency.address}` : undefined)
+export default function useCurrencyLogoURIs(currency?: Currency | null): string[] {
+  const locations = useHttpLocations(currency instanceof WrappedTokenInfo ? currency.logoUri : undefined)
   return useMemo(() => {
     const logoURIs = [...locations]
     if (currency) {

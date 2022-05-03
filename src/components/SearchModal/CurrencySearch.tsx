@@ -1,6 +1,6 @@
 // eslint-disable-next-line no-restricted-imports
 import { t, Trans } from '@lingui/macro'
-import { PoolInfo } from 'constants/lists'
+import { Currency, Token } from '@uniswap/sdk-core'
 import useActiveWeb3React from 'hooks/useActiveWeb3React'
 import useDebounce from 'hooks/useDebounce'
 import { useOnClickOutside } from 'hooks/useOnClickOutside'
@@ -47,15 +47,15 @@ const Footer = styled.div`
 interface CurrencySearchProps {
   isOpen: boolean
   onDismiss: () => void
-  selectedCurrency?: PoolInfo | null
-  onCurrencySelect: (currency: PoolInfo) => void
-  otherSelectedCurrency?: PoolInfo | null
+  selectedCurrency?: Currency | null
+  onCurrencySelect: (currency: Currency) => void
+  otherSelectedCurrency?: Currency | null
   showCommonBases?: boolean
   showCurrencyAmount?: boolean
   disableNonToken?: boolean
   showManageView: () => void
   showImportView: () => void
-  setImportToken: (token: PoolInfo) => void
+  setImportToken: (token: Token) => void
 }
 
 export function CurrencySearch({
@@ -99,12 +99,13 @@ export function CurrencySearch({
     }
   }, [isAddressSearch])
 
-  const filteredTokens: PoolInfo[] = useMemo(() => {
+    // @ts-ignore
+  const filteredTokens: Token[] = useMemo(() => {
     return Object.values(allTokens).filter(getTokenFilter(debouncedQuery))
   }, [allTokens, debouncedQuery])
 
   const balances = useAllTokenBalances()
-  const sortedTokens = useMemo(() => {
+  const sortedTokens: Token[] = useMemo(() => {
     return filteredTokens.sort(tokenComparator.bind(null, balances))
   }, [balances, filteredTokens])
 
@@ -112,7 +113,7 @@ export function CurrencySearch({
 
   const native = useNativeCurrency()
 
-  const filteredSortedTokensWithETH: PoolInfo[] = useMemo(() => {
+  const filteredSortedTokensWithETH: Currency[] = useMemo(() => {
     if (!native) return filteredSortedTokens
 
     const s = debouncedQuery.toLowerCase().trim()
@@ -123,7 +124,7 @@ export function CurrencySearch({
   }, [debouncedQuery, native, filteredSortedTokens])
 
   const handleCurrencySelect = useCallback(
-    (currency: PoolInfo) => {
+    (currency: Currency) => {
       onCurrencySelect(currency)
       onDismiss()
     },

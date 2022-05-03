@@ -1,12 +1,12 @@
-import { NativeCurrency } from '@uniswap/sdk-core'
-import { PoolInfo } from '../../../constants/lists'
+import { NativeCurrency, Token } from '@uniswap/sdk-core'
+import { PoolInfo } from 'constants/lists'
 
 import { isAddress } from '../../../utils'
 
 const alwaysTrue = () => true
 
 /** Creates a filter function that filters tokens that do not match the query. */
-export function getTokenFilter<T extends PoolInfo>(query: string): (token: T | NativeCurrency) => boolean {
+export function getTokenFilter<T extends Token | PoolInfo>(query: string): (token: T | NativeCurrency) => boolean {
   const searchingAddress = isAddress(query)
 
   if (searchingAddress) {

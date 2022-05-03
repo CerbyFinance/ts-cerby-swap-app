@@ -109,7 +109,7 @@ const ListRow = memo(function ListRow({ listUrl }: { listUrl: string }) {
   }, [chainId, list])
 
   const theme = useTheme()
-  const listColor = useListColor(list?.logoURI)
+  const listColor = useListColor(undefined)
   const isActive = useIsListActive(listUrl)
 
   const [open, toggle] = useToggle(false)
@@ -179,11 +179,11 @@ const ListRow = memo(function ListRow({ listUrl }: { listUrl: string }) {
       key={listUrl}
       id={listUrlRowHTMLId(listUrl)}
     >
-      {list.logoURI ? (
+      {/* {list.logoURI ? (
         <ListLogo size="40px" style={{ marginRight: '1rem' }} logoURI={list.logoURI} alt={`${list.name} list logo`} />
       ) : (
         <div style={{ width: '24px', height: '24px', marginRight: '1rem' }} />
-      )}
+      )} */}
       <Column style={{ flex: '1' }}>
         <Row>
           <StyledTitleText active={isActive}>{list.name}</StyledTitleText>
@@ -198,7 +198,7 @@ const ListRow = memo(function ListRow({ listUrl }: { listUrl: string }) {
             </ButtonEmpty>
             {open && (
               <PopoverContainer show={true} ref={setPopperElement as any} style={styles.popper} {...attributes.popper}>
-                <div>{list && listVersionLabel(list.version)}</div>
+                {/* <div>{list && listVersionLabel(list.version)}</div> */}
                 <SeparatorDark />
                 <ExternalLink href={`https://tokenlists.org/token-list?url=${listUrl}`}>
                   <Trans>View list</Trans>

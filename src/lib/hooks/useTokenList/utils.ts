@@ -10,24 +10,24 @@ type Mutable<T> = {
 
 const mapCache = typeof WeakMap !== 'undefined' ? new WeakMap<PoolList | PoolInfo[], ChainTokenMap>() : null
 
-export function tokensToChainTokenMap(pools: PoolList): ChainTokenMap {
-  const cached = mapCache?.get(pools)
+export function tokensToChainTokenMap(tokens: PoolList | PoolInfo[]): ChainTokenMap {
+  const cached = mapCache?.get(tokens)
   if (cached) return cached
 
-  const [list, infos] = [pools, pools.pools]
-  const chainId = list.chainId;
+  const [list, infos] = Array.isArray(tokens) ? [undefined, tokens] : [tokens, tokens.pools]
+  
   const map = infos.reduce<Mutable<ChainTokenMap>>((map, info) => {
-    const token = new WrappedTokenInfo(info, list);
-    if (map[chainId]?.[token.address] !== undefined) {
+    const token = new WrappedTokenInfo(info, list)
+    if (map[token.chainId]?.[token.address] !== undefined) {
       console.warn(`Duplicate token skipped: ${token.address}`)
       return map
     }
-    if (!map[chainId]) {
-      map[chainId] = {}
+    if (!map[token.chainId]) {
+      map[token.chainId] = {}
     }
-    map[chainId][token.address] = { token, list }
+    map[token.chainId][token.address] = { token, list }
     return map
   }, {}) as ChainTokenMap
-  mapCache?.set(pools, map)
+  mapCache?.set(tokens, map)
   return map
 }

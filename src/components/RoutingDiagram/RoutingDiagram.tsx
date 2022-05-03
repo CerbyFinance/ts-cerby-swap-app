@@ -1,6 +1,5 @@
 import { Trans } from '@lingui/macro'
 import { Currency } from '@uniswap/sdk-core'
-import { PoolInfo } from 'constants/lists'
 import { FeeAmount } from '@uniswap/v3-sdk'
 import Badge from 'components/Badge'
 import CurrencyLogo from 'components/CurrencyLogo'
@@ -83,8 +82,8 @@ export default function RoutingDiagram({
   currencyOut,
   routes,
 }: {
-  currencyIn: PoolInfo
-  currencyOut: PoolInfo 
+  currencyIn: Currency
+  currencyOut: Currency
   routes: RoutingDiagramEntry[]
 }) {
   const tokenIn = useTokenInfoFromActiveList(currencyIn)
@@ -126,7 +125,7 @@ function Route({ entry: { percent, path, protocol } }: { entry: RoutingDiagramEn
   )
 }
 
-function Pool({ currency0, currency1, feeAmount }: { currency0: PoolInfo; currency1: PoolInfo; feeAmount: FeeAmount }) {
+function Pool({ currency0, currency1, feeAmount }: { currency0: Currency; currency1: Currency; feeAmount: FeeAmount }) {
   const tokenInfo0 = useTokenInfoFromActiveList(currency0)
   const tokenInfo1 = useTokenInfoFromActiveList(currency1)
 

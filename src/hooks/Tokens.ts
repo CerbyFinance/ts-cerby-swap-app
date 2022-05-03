@@ -13,7 +13,7 @@ import { useUserAddedTokens } from '../state/user/hooks'
 import { TokenAddressMap } from './../state/lists/hooks'
 
 // reduce token map into standard address <-> Token mapping, optionally include user added tokens
-function useTokensFromMap(tokenMap: TokenAddressMap, includeUserAdded: boolean): { [address: string]: PoolInfo } {
+function useTokensFromMap(tokenMap: TokenAddressMap, includeUserAdded: boolean): { [address: string]: Token } {
   const { chainId } = useActiveWeb3React()
   const userAddedTokens = useUserAddedTokens()
 
@@ -21,7 +21,7 @@ function useTokensFromMap(tokenMap: TokenAddressMap, includeUserAdded: boolean):
     if (!chainId) return {}
 
     // reduce to just tokens
-    const mapWithoutUrls = Object.keys(tokenMap[chainId] ?? {}).reduce<{ [address: string]: PoolInfo }>(
+    const mapWithoutUrls = Object.keys(tokenMap[chainId] ?? {}).reduce<{ [address: string]: Token }>(
       (newMap, address) => {
         newMap[address] = tokenMap[chainId][address].token
         return newMap
@@ -33,8 +33,9 @@ function useTokensFromMap(tokenMap: TokenAddressMap, includeUserAdded: boolean):
       return (
         userAddedTokens
           // reduce into all ALL_TOKENS filtered by the current chain
-          .reduce<{ [address: string]: PoolInfo }>(
+          .reduce<{ [address: string]: Token }>(
             (tokenMap, token) => {
+              // @ts-ignore
               tokenMap[token.address] = token
               return tokenMap
             },
@@ -49,7 +50,7 @@ function useTokensFromMap(tokenMap: TokenAddressMap, includeUserAdded: boolean):
   }, [chainId, userAddedTokens, tokenMap, includeUserAdded])
 }
 
-export function useAllTokens(): { [address: string]: PoolInfo } {
+export function useAllTokens(): { [address: string]: Token } {
   const allTokens = useCombinedActiveList()
   return useTokensFromMap(allTokens, true)
 }
@@ -119,8 +120,8 @@ export function useSearchInactiveTokenLists(search: string | undefined, minResul
     for (const url of inactiveUrls) {
       const list = lists[url].current
       if (!list) continue
-      for (const tokenInfo of list.tokens) {
-        if (tokenInfo.chainId === chainId && tokenFilter(tokenInfo)) {
+      for (const tokenInfo of list.pools) {
+        if (tokenFilter(tokenInfo)) {
           const wrapped: WrappedTokenInfo = new WrappedTokenInfo(tokenInfo, list)
           if (!(wrapped.address in activeTokens) && !addressSet[wrapped.address]) {
             addressSet[wrapped.address] = true

@@ -2,7 +2,6 @@ import { Currency } from '@uniswap/sdk-core'
 import useCurrencyLogoURIs from 'lib/hooks/useCurrencyLogoURIs'
 import React from 'react'
 import styled from 'styled-components/macro'
-import { PoolInfo } from 'constants/lists'
 
 import Logo from '../Logo'
 
@@ -23,7 +22,7 @@ export default function CurrencyLogo({
   style,
   ...rest
 }: {
-  currency?: PoolInfo | null
+  currency?: Currency | null
   size?: string
   style?: React.CSSProperties
 }) {

@@ -75,28 +75,29 @@ function TokenTags({ currency }: { currency: Currency }) {
     return <span />
   }
 
-  const tags = currency.tags
-  if (!tags || tags.length === 0) return <span />
+  return <span />
+  // const tags = currency.tags
+  // if (!tags || tags.length === 0) return <span />
 
-  const tag = tags[0]
+  // const tag = currency.name
 
-  return (
-    <TagContainer>
-      <MouseoverTooltip text={tag.description}>
-        <Tag key={tag.id}>{tag.name}</Tag>
-      </MouseoverTooltip>
-      {tags.length > 1 ? (
-        <MouseoverTooltip
-          text={tags
-            .slice(1)
-            .map(({ name, description }) => `${name}: ${description}`)
-            .join('; \n')}
-        >
-          <Tag>...</Tag>
-        </MouseoverTooltip>
-      ) : null}
-    </TagContainer>
-  )
+  // return (
+  //   <TagContainer>
+  //     <MouseoverTooltip text={tag.description}>
+  //       <Tag key={tag.id}>{tag.name}</Tag>
+  //     </MouseoverTooltip>
+  //     {tags.length > 1 ? (
+  //       <MouseoverTooltip
+  //         text={tags
+  //           .slice(1)
+  //           .map(({ name, description }) => `${name}: ${description}`)
+  //           .join('; \n')}
+  //       >
+  //         <Tag>...</Tag>
+  //       </MouseoverTooltip>
+  //     ) : null}
+  //   </TagContainer>
+  // )
 }
 
 function CurrencyRow({

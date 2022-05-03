@@ -7,7 +7,6 @@ import { useTokenInfoFromActiveList } from 'hooks/useTokenInfoFromActiveList'
 import { Text } from 'rebass'
 import styled from 'styled-components/macro'
 import { currencyId } from 'utils/currencyId'
-import { PoolInfo } from 'constants/lists'
 
 const MobileWrapper = styled(AutoColumn)`
   ${({ theme }) => theme.mediaWidth.upToSmall`
@@ -38,16 +37,16 @@ export default function CommonBases({
   selectedCurrency,
 }: {
   chainId?: number
-  selectedCurrency?: PoolInfo | null
-  onSelect: (currency: PoolInfo) => void
+  selectedCurrency?: Currency | null
+  onSelect: (currency: Currency) => void
 }) {
   const bases = typeof chainId !== 'undefined' ? COMMON_BASES[chainId] ?? [] : []
 
   return bases.length > 0 ? (
     <MobileWrapper gap="md">
       <AutoRow gap="4px">
-        {bases.map((currency: PoolInfo) => {
-          const isSelected = selectedCurrency?.address == currency.address
+        {bases.map((currency: Currency) => {
+          const isSelected = selectedCurrency?.equals(currency)
           return (
             <BaseWrapper
               onClick={() => !isSelected && onSelect(currency)}
@@ -67,7 +66,7 @@ export default function CommonBases({
 }
 
 /** helper component to retrieve a base currency from the active token lists */
-function CurrencyLogoFromList({ currency }: { currency: PoolInfo }) {
+function CurrencyLogoFromList({ currency }: { currency: Currency }) {
   const token = useTokenInfoFromActiveList(currency)
 
   return <CurrencyLogo currency={token} style={{ marginRight: 8 }} />

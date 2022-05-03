@@ -17,7 +17,7 @@ function balanceComparator(a?: CurrencyAmount<Currency>, b?: CurrencyAmount<Curr
 type TokenBalances = { [tokenAddress: string]: CurrencyAmount<Token> | undefined }
 
 /** Sorts tokens by currency amount (descending), then symbol (ascending). */
-export function tokenComparator(balances: TokenBalances, a: PoolInfo, b: PoolInfo) {
+export function tokenComparator(balances: TokenBalances, a: Token, b: Token) {
   // Sorts by balances
   const balanceComparison = balanceComparator(balances[a.address], balances[b.address])
   if (balanceComparison !== 0) return balanceComparison
@@ -31,7 +31,7 @@ export function tokenComparator(balances: TokenBalances, a: PoolInfo, b: PoolInf
 }
 
 /** Sorts tokens by query, giving precedence to exact matches and partial matches. */
-export function useSortTokensByQuery<T extends PoolInfo>(query: string, tokens?: T[]): T[] {
+export function useSortTokensByQuery<T extends Token | PoolInfo>(query: string, tokens?: T[]): T[] {
   return useMemo(() => {
     if (!tokens) {
       return []

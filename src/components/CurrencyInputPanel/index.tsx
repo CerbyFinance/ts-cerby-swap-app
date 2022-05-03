@@ -9,7 +9,6 @@ import { ReactNode, useCallback, useState } from 'react'
 import { Lock } from 'react-feather'
 import styled from 'styled-components/macro'
 import { formatCurrencyAmount } from 'utils/formatCurrencyAmount'
-import { PoolInfo } from 'constants/lists'
 
 import { ReactComponent as DropDown } from '../../assets/images/dropdown.svg'
 import useTheme from '../../hooks/useTheme'
@@ -163,11 +162,11 @@ interface CurrencyInputPanelProps {
   showMaxButton: boolean
   label?: ReactNode
   onCurrencySelect?: (currency: Currency) => void
-  currency?: PoolInfo | null
+  currency?: Currency | null
   hideBalance?: boolean
   pair?: Pair | null
   hideInput?: boolean
-  otherCurrency?: PoolInfo | null
+  otherCurrency?: Currency | null
   fiatValue?: CurrencyAmount<Token> | null
   priceImpact?: Percent
   id: string

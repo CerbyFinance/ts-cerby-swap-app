@@ -1,5 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit'
-import { getVersionUpgrade, TokenList, VersionUpgrade } from '@uniswap/token-lists'
+import { getVersionUpgrade, VersionUpgrade } from '@uniswap/token-lists'
+import { PoolList } from '../../constants/lists'
 
 import { DEFAULT_ACTIVE_LIST_URLS } from '../../constants/lists'
 import { DEFAULT_LIST_OF_LISTS } from '../../constants/lists'
@@ -9,8 +10,8 @@ import { acceptListUpdate, addList, disableList, enableList, fetchTokenList, rem
 export interface ListsState {
   readonly byUrl: {
     readonly [url: string]: {
-      readonly current: TokenList | null
-      readonly pendingUpdate: TokenList | null
+      readonly current: PoolList | null
+      readonly pendingUpdate: PoolList | null
       readonly loadingRequestId: string | null
       readonly error: string | null
     }
@@ -63,9 +64,9 @@ export default createReducer(initialState, (builder) =>
 
       // no-op if update does nothing
       if (current) {
-        const upgradeType = getVersionUpgrade(current.version, tokenList.version)
+        // const upgradeType = getVersionUpgrade(current.version, tokenList.version)
 
-        if (upgradeType === VersionUpgrade.NONE) return
+        // if (upgradeType === VersionUpgrade.NONE) return
         if (loadingRequestId === null || loadingRequestId === requestId) {
           state.byUrl[url] = {
             current,

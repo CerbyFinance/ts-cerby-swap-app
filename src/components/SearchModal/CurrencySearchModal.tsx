@@ -1,5 +1,5 @@
 import { Currency, Token } from '@uniswap/sdk-core'
-import { PoolList } from '../../constants/lists'
+import { PoolList } from 'constants/lists'
 import usePrevious from 'hooks/usePrevious'
 import { useCallback, useEffect, useState } from 'react'
 

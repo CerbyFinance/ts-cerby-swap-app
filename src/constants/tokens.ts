@@ -1,4 +1,4 @@
-import { Currency, Ether, Token, WETH9 } from '@uniswap/sdk-core'
+import { Currency, Ether, NativeCurrency, Token, WETH9 } from '@uniswap/sdk-core'
 import { PoolInfo } from './lists';
 import invariant from 'tiny-invariant'
 
@@ -378,8 +378,8 @@ export class ExtendedEther extends Ether {
   }
 }
 
-const cachedNativeCurrency: { [chainId: number]: PoolInfo } = {}
-export function nativeOnChain(chainId: number): PoolInfo {
+const cachedNativeCurrency: { [chainId: number]: NativeCurrency } = {}
+export function nativeOnChain(chainId: number): NativeCurrency {
   return (
     cachedNativeCurrency[chainId] ??
     (cachedNativeCurrency[chainId] = isMatic(chainId)

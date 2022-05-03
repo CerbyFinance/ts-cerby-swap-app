@@ -20,7 +20,7 @@ const validator = new Promise<Ajv>(async (resolve) => {
       },
       "pools"
     )
-  resolve(validator as PoolList)
+  resolve(validator)
 })
 
 function getValidationErrors(validate: ValidateFunction | undefined): string {

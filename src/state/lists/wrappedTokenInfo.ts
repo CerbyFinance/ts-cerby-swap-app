@@ -3,23 +3,29 @@ import { PoolInfo, PoolList } from '../../constants/lists'
 
 import { isAddress } from '../../utils'
 
-type TagDetails = Tags[keyof Tags]
-interface TagInfo extends TagDetails {
-  id: string
-}
+// type TagDetails = Tags[keyof Tags]
+// interface TagInfo extends TagDetails {
+//   id: string
+// }
 /**
  * Token instances created from token info on a token list.
  */
 export class WrappedTokenInfo implements Token {
   public readonly isNative: false = false
   public readonly isToken: true = true
-  public readonly list: PoolList
+  public readonly list: PoolList | undefined
+  public readonly chain: number;
 
   public readonly tokenInfo: PoolInfo
 
-  constructor(tokenInfo: PoolInfo, list: PoolList) {
+  constructor(tokenInfo: PoolInfo, list?: PoolList, chainId?: number) {
     this.tokenInfo = tokenInfo
     this.list = list
+    if(chainId) {
+      this.chain = chainId;
+    } else {
+      this.chain = this.list?.chainId || 1;
+    }
   }
 
   private _checksummedAddress: string | null = null
@@ -32,7 +38,7 @@ export class WrappedTokenInfo implements Token {
   }
 
   public get chainId(): number {
-    return this.list.chainId
+    return this.chain;
   }
 
   public get decimals(): number {
@@ -47,13 +53,17 @@ export class WrappedTokenInfo implements Token {
     return `https://tokens.cerbyswap.com/${this.address}`;
   }
 
+  public get trust(): number {
+    return this.tokenInfo.trust;
+  }
+
   public get symbol(): string {
     return this.tokenInfo.symbol
   }
 
   // private _tags: TagInfo[] | null = null
-  public get tags(): TagInfo[] {
-    return this._tags = [];
+  public get tags(): [] {
+    return [];
       // if (this._tags !== null) return this._tags
       // if (!this.tokenInfo.tags) return (this._tags = [])
       // const listTags = this.list?.tags

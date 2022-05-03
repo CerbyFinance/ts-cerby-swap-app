@@ -41,7 +41,7 @@ type ChainTokenList = {
 }
 
 type ChainCurrencyList = {
-  readonly [chainId: number]: PoolInfo[]
+  readonly [chainId: number]: Currency[]
 }
 
 const WRAPPED_NATIVE_CURRENCIES_ONLY: ChainTokenList = Object.fromEntries(

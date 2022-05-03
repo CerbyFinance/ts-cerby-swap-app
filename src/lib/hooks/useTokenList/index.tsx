@@ -1,5 +1,6 @@
 import { NativeCurrency, Token } from '@uniswap/sdk-core'
-import { TokenInfo, PoolList } from '@uniswap/token-lists'
+// import { TokenInfo, PoolList } from '@uniswap/token-lists'
+import { PoolInfo, PoolList } from 'constants/lists'
 import useActiveWeb3React from 'lib/hooks/useActiveWeb3React'
 import resolveENSContentHash from 'lib/utils/resolveENSContentHash'
 import { createContext, PropsWithChildren, useCallback, useContext, useEffect, useMemo, useState } from 'react'
@@ -59,7 +60,7 @@ export function useQueryCurrencies(query = ''): (WrappedTokenInfo | NativeCurren
 export function TokenListProvider({
   list = DEFAULT_TOKEN_LIST,
   children,
-}: PropsWithChildren<{ list?: string | TokenInfo[] }>) {
+}: PropsWithChildren<{ list?: string | PoolInfo[] }>) {
   // Error boundaries will not catch (non-rendering) async errors, but it should still be shown
   const [error, setError] = useState<Error>()
   if (error) throw error
@@ -84,14 +85,14 @@ export function TokenListProvider({
     if (chainTokenMap) return
 
     let stale = false
-    activateList(list)
+    activateList(chainId ?? 1, list)
     return () => {
       stale = true
     }
 
-    async function activateList(list: string | TokenInfo[]) {
+    async function activateList(chainId: number, list: string | PoolInfo[]) {
       try {
-        let tokens: PoolList | TokenInfo[]
+        let tokens: PoolList | PoolInfo[]
         if (typeof list === 'string') {
           tokens = await fetchTokenList(chainId ?? 1, list, resolver)
         } else {
